@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,9 +7,35 @@ import {
   ScrollView,
   Button,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 
-const Home = () => {
+const Home = ({onPress, navigation}) => {
+  const [value, setValue] = useState(1);
+
+  const onCount = type => {
+    if (type === 'plus') {
+      setValue(value + 1);
+    }
+    if (type === 'minus') {
+      if (value > 1) {
+        setValue(value - 1);
+      }
+    }
+  };
+
+  const [values, setValues] = useState(1);
+
+  const onCounts = type => {
+    if (type === 'plus') {
+      setValues(values + 1);
+    }
+    if (type === 'minus') {
+      if (values > 1) {
+        setValues(values - 1);
+      }
+    }
+  };
   return (
     <ScrollView>
       <View>
@@ -35,44 +61,58 @@ const Home = () => {
                 <Text style={styles.productName}>Zee Susu Bubuk</Text>
                 <Text style={styles.productVariant}>Variant Coklat</Text>
                 <View style={styles.quantity}>
-                  <Image
-                    source={require('../src/assets/btn_min.png')}
-                    style={styles.btnMinAdd}
-                  />
-                  <Text style={styles.quantityText}>14</Text>
-                  <Image
-                    source={require('../src/assets/btn_add.png')}
-                    style={styles.btnMinAdd}
-                  />
+                  <TouchableOpacity onPress={() => onCounts('minus')}>
+                    <Image
+                      source={require('../src/assets/btn_min.png')}
+                      style={styles.btnMinAdd}
+                    />
+                  </TouchableOpacity>
+
+                  <Text style={styles.quantityText}>{values}</Text>
+
+                  <TouchableOpacity onPress={() => onCounts('plus')}>
+                    <Image
+                      source={require('../src/assets/btn_add.png')}
+                      style={styles.btnMinAdd}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
-              {/* <View style={styles.productWrapper}>
+              <View style={styles.productWrapper}>
                 <Image
-                  source={require('../src/assets/susu-zee.png')}
-                  style={styles.susuZee}
+                  source={require('../src/assets/fitbar.png')}
+                  style={styles.fitbar}
                 />
-                <Text style={styles.productName}>Zee Susu Bubuk</Text>
-                <Text style={styles.productVariant}>Variant Coklat</Text>
-                <View style={styles.quantity}>
-                  <Image
-                    source={require('../src/assets/btn_min.png')}
-                    style={styles.btnMinAdd}
-                  />
-                  <Text style={styles.quantityText}>14</Text>
-                  <Image
-                    source={require('../src/assets/btn_add.png')}
-                    style={styles.btnMinAdd}
-                  />
+                <Text style={styles.productNameFitbar}>Fitbar</Text>
+                <Text style={styles.productVariantFitbar}>Variant Coklat</Text>
+                <View style={styles.quantityFitbar}>
+                  <TouchableOpacity onPress={() => onCount('minus')}>
+                    <Image
+                      source={require('../src/assets/btn_min.png')}
+                      style={styles.btnMinAdd}
+                    />
+                  </TouchableOpacity>
+
+                  <Text style={styles.quantityText}>{value}</Text>
+
+                  <TouchableOpacity onPress={() => onCount('plus')}>
+                    <Image
+                      source={require('../src/assets/btn_add.png')}
+                      style={styles.btnMinAdd}
+                    />
+                  </TouchableOpacity>
                 </View>
-              </View> */}
+              </View>
             </View>
-            <View style={styles.button}>
-              <Button
-                title="Kirim Mang"
-                color="#22577A"
-                onPress={() => Alert.alert('Mantap')}
-              />
-            </View>
+            <TouchableOpacity onPress={onPress}>
+              <View style={styles.button}>
+                <Button
+                  title="Kirim Mang"
+                  color="#22577A"
+                  onPress={() => navigation.navigate('FinishScreen')}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -109,9 +149,18 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   susuZee: {width: 83, height: 105, marginHorizontal: 34, marginTop: 14},
+  fitbar: {width: 143, height: 57, marginTop: 52, marginHorizontal: 4},
   productName: {textAlign: 'center', marginTop: 15},
+  productNameFitbar: {textAlign: 'center', marginTop: 25},
   productVariant: {textAlign: 'center', fontSize: 10},
+  productVariantFitbar: {textAlign: 'center', fontSize: 10},
   quantity: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  quantityFitbar: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

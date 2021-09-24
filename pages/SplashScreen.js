@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StyleSheet, Image} from 'react-native';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 2000);
+  });
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Selamat Datang Mahasiswa Baru</Text>
